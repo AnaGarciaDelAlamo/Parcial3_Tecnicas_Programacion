@@ -1,28 +1,39 @@
 import java.util.*;
+/* DEFINICIÓN:
+Estructura de datos matemática que consta de un conjunto de vértices y un conjunto de aristas que los conectan.
+* Cada arista conecta 2 vértices */
+
 
 public class Graph <V>{
+
+    //Lista de adyacencia
     private Map<V, Set<V>> adjacencyList = new HashMap<>();
 
+
+    //Agrega un vértice al grafo
     public boolean addVertex(V v){
         if(!adjacencyList.containsKey(v)){
             adjacencyList.put(v, new HashSet<V>());
-            return true;
+            return true;//Devuelve true si lo agrega con éxito
         }
-        return false;
+        return false;//Devuelve false si el vértice ya existe en el grafo
     }
 
+    //Agrega una arista al grafo que conecta 2 vértices dados
     public boolean addEdge(V v1, V v2, double v){
-        addVertex(v1);
+        addVertex(v1);//Si los vértices no existen en el grafo se agregan
         addVertex(v2);
 
         Set<V> adyacents = adjacencyList.get(v1);
         if (adyacents.contains(v2)){
-            return false;
+            return false;//Devuelve false si la arista ya existe en el grafo
         }
         adyacents.add(v2);
-        return true;
+        return true;//Devuelve true si la arista se agrega con éxito
     }
 
+
+    //Devuelve un conjunto de vértices adyacentes a un vértice dado en el grafo
     public Set<V> obtainAdjacents(V v) throws Exception{
         if(!adjacencyList.containsKey(v)){
             throw new Exception("El vértice no existe");
@@ -30,6 +41,7 @@ public class Graph <V>{
         return adjacencyList.get(v);
     }
 
+    //Verifica se el vértice dado existe en el grafo
     public boolean containsVertex(V v){
         return adjacencyList.containsKey(v);
     }
@@ -46,6 +58,8 @@ public class Graph <V>{
         return sb.toString();
     }
 
+
+    //Devuelve una lista de vértices que representan el camino más corto entre 2 vértices dados usando el algoritmo de búsqueda en profundidad
     public List<V> onePath(V v1, V v2) throws Exception{
         Map<V, V> trace = new HashMap<>();
         Stack<V> open = new Stack<>();
@@ -80,6 +94,8 @@ public class Graph <V>{
             }
         }
 
+
+        //Hace una búsqueda en profundidad en el grafo a partir de un vértice inicial dado y devuelve una lista de vértices visitados
         public List<V> depthFirstSearch(V startV){
         List<V> visited = new ArrayList<>();
         Stack<V> stack = new Stack<>();
@@ -100,6 +116,8 @@ return visited;
 
     }
 
+
+    //Devuelve una lista de vértices quwe representan el camino más corto entre 2 vértices dados en un grafo usando el algoritmo de búsqueda en anchura
     public List<V> shortestPath(V v1, V v2) throws Exception{
         Map<V, V> trace = new HashMap<>();
         Queue<V> open = new LinkedList<>();
@@ -134,6 +152,8 @@ return visited;
 
     }
 
+
+    //Devuelve un array de objetos Barcos que representan los vértices en el grafo
     public Barco[] getVertex(){
         Barco[] barcos = new Barco[adjacencyList.size()];
         int i = 0;
@@ -143,6 +163,7 @@ return visited;
         return barcos;
     }
 
+    //Elimina un vértice dado del grafo y todas las aristas conectadas a él
     public void removeVertex(V max){
         adjacencyList.remove(max);
         for(V vertice : adjacencyList.keySet()){
@@ -150,6 +171,7 @@ return visited;
         }
     }
 
+    //Representación del grafo
     public static void pintarGraph(Graph grafo) throws Exception{
         for(int i = 0; i < grafo.getVertex().length; i++){
             System.out.println(grafo.getVertex()[i].toString() + " -> " + grafo.obtainAdjacents(grafo.getVertex()[i]).toString());
