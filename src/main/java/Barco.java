@@ -51,8 +51,4 @@ public class Barco {
                 "\nPosición Y: " + posY;
     }
 
-    public static void main(String[] args) {
-        Barco barco = new Barco("Barco1", 3, 1, 1);
-        System.out.println(barco.toString());
-    }
 }
